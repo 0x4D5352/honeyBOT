@@ -21,5 +21,3 @@ python3 generate_image.py
 # add user accounts to target system
 echo "Adding honeyBOTs to target system..."
 # python3 add_users.py $server
-
-# TODO: create a server on proxmox to demo this!!!! give user nopasswd sudo access, and make sure to add the ssh key to the server
