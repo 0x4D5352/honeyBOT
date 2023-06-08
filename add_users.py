@@ -33,7 +33,7 @@ def main():
         print("Please provide a server to connect to.")
         exit()
     # ssh into the server using your SSH key
-    os.system(f"ssh -i ~/.ssh/id_rsa {server}")
+    os.system(f"ssh -i ~/.ssh/id_rsa root@{server}")
     # switch to root user
     os.system("sudo su")
     # go through the output directory
