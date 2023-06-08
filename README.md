@@ -4,6 +4,8 @@
 
 honeyBOT leverages the power of multiple FOSS Generative AI Models to construct realistic people with realistic backstories, realistic photos, and most importantly - realistic bad passwords. Using FOSS tools allows honeyBOT to generate an unlimited number of inferences hosted locally on your machine. No rate limits, no API fees, no censorship, and (after your first runthrough) entirely offline. Whether you need a single person for a spear phishing or BEC campaign, or an entire fictional organization that exists on a bait server in your DMZ, honeyBOT can provide!
 
+In this current implementation, honeyBOT will generate backgrounds, photos, and passwords for a specified number of people and add them to the specified Linux server. Future versions will allow for more customization, including the ability to generate people with specific backgrounds, photos, and passwords.
+
 ## 🐝 How to Use 🐝
 
 ### Step 1 (Mac/Linux).
@@ -23,10 +25,10 @@ cd stable-diffusion-webui && ./webui.sh
 
 ### Step 2.
 
-Open a new terminal window and run `./run.sh COUNT`, replacing `COUNT` with the number of people you wish to generate. For example, to generate five people:
+Open a new terminal window and run `./run.sh COUNT SERVER`, replacing `COUNT` with the number of people you wish to generate and `SERVER` with the linux server you wish to add them to. For example, to generate five people on server 192.168.123.111:
 
 ```bash
-./run.sh 5
+./run.sh 5 "192.168.123.111"
 ```
 
 ## ⚠️ Warnings ⚠️

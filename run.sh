@@ -20,4 +20,4 @@ python3 generate_image.py
 
 # add user accounts to target system
 echo "Adding honeyBOTs to target system..."
-# python3 add_users.py $server
+python3 add_users.py $server
