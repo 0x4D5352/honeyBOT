@@ -5,17 +5,23 @@ import os
 import json
 from secrets import randbelow
 import sys
+from time import sleep
+import fabric
+
 
 # set the output directory
 OUTPUT_DIRECTORY = os.path.join(os.getcwd(), "output")
+# grab the value of the id_rsa file stored in ~/.ssh and store it in a variable
+SSH_KEY = os.path.join(os.path.expanduser("~"), ".ssh/id_rsa")
 
 # go through the output folder and create a dictionary based on the contents of logins.json
 def create_dict(login_json):
     # open the logins.json file
     with open(login_json, 'r') as f:
+        fix = json.loads(json.dumps(f.read())) # i messed something up and this is a quick fix
         # load the contents of the file into a dictionary
-        data = json.load(f)
-        # create a dictionary to store the contents of the logins.json file
+        data = json.loads(fix)
+        # create a dictionary to store the contents for the logins
         logins = {}
         # add the username as the key and randomly select the password for the value
         logins['Username'] = data['Username'] 
@@ -32,22 +38,21 @@ def main():
     if not server:
         print("Please provide a server to connect to.")
         exit()
-    # ssh into the server using your SSH key
-    os.system(f"ssh -i ~/.ssh/id_rsa root@{server}")
-    # switch to root user
-    os.system("sudo su")
-    # go through the output directory
-    for person in os.listdir(OUTPUT_DIRECTORY):
-        # if the first character of the folder name is not a period
-        if person[0] != '.':
-            # create a dictionary based on the contents of logins.json in each folder
-            logins = create_dict(f"{OUTPUT_DIRECTORY}/{person}/logins.json")
-            # add the users to the system
-            os.system(f"useradd -m -p {logins['Username']} {logins['Password']} &")
-    # verify that the users were added to the system
-    os.system("cat /etc/passwd")
-    # exit the server
-    os.system("exit")
+    # using fabric, ssh into the server as root using your SSH key
+    user = fabric.Connection(server, user="root", connect_kwargs={"key_filename": SSH_KEY}).run("echo $USER")
+    # if $USER is root, continue
+    if user.stdout == "root\n":
+        # go through the output directory
+        for person in os.listdir(OUTPUT_DIRECTORY):
+            # if the first character of the folder name is not a period
+            if person[0] != '.':
+                # create a dictionary based on the contents of logins.json in each folder
+                logins = create_dict(f"{OUTPUT_DIRECTORY}/{person}/logins.json")
+                # add the users to the system
+                print(f"Adding {logins['Username']} to the system...")
+                fabric.Connection(server, user="root", connect_kwargs={"key_filename": SSH_KEY}).run(f"useradd -m -p {logins['Password']} {logins['Username']} &")
+        # verify that the users were added to the system
+        fabric.Connection(server, user="root", connect_kwargs={"key_filename": SSH_KEY}).run("cat /etc/passwd")
             
 # run the main function
 if __name__ == "__main__":

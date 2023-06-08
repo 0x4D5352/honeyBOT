@@ -86,7 +86,7 @@ generator = [
             {"role": "system", "content": "Answers should contain no special characters or accent markings. Use standard ASCII only."},
             {"role": "system", "content": "As an example, if the prompt is \"Eye Color:\", your response should be a single natural eye color, such as blue, green, or hazel."},
             {"role": "system", "content": "There should be an equal likelihood for male or female characters."},
-            {"role": "system", "content": "The character can be of any Ethnicity - Caucasian, African, Hispanic, Latino, Asian, Anglo, etc."},
+            {"role": "system", "content": "The character can be of any Ethnic background."},
             {"role": "system", "content": "The character can be of any Nationality - American, Canadian, Mexican, French, Chinese, Vietnamese, Nigerian, South African, etc."},
             {"role": "system", "content": "The character's Ethnicity and Nationality can be the same, as in a French person living in France, or different, as in a Chinese person living in Australia."},
             {"role": "system", "content": "The character can live in their place of birth or another city based on their Nationality."},
@@ -129,8 +129,8 @@ if os.path.exists(output_directory):
    output_directory = os.path.join(WORKING_DIRECTORY, "output", character_name)
 os.mkdir(output_directory)
 file_name = "biography.json"
-with open(os.path.join(output_directory, file_name), "w") as json_file:
-   json.dump(biography, json_file)
+with open(os.path.join(output_directory, file_name), "w") as biography_file:
+   json.dump(biography, biography_file)
    
 summarizer = [{"role": "system", "content": "### Instruction:\nYou are a helpful assistant, skilled at reading python dictionaries and summarizing them."}, 
                {"role": "system", "content": "The prompt will be formatted as dictionary entries in the format Key: Value."}, 
@@ -149,13 +149,12 @@ password_generator = [ {"role": "system", "content": "### Instruction:\nYou are 
                         {"role": "system", "content": "The passwords should avoid referencing the person's ethnicity, sexual orientation, or physical features."},
                         {"role": "system", "content": "Each password should be between 8 and 15 alphanumeric characters, with a few letters capitalized."},
                         {"role": "system", "content": "For example, if the person's favorite movie is The Big Lebowski, one of their password could be WheresTheMoney1"},
-                        {"role": "system", "content": "Additionally, provide a security question, and an answer to that question."},
-                        {"role": "system", "content": "Format your response as a JSON dictionary: {\"Username\": \"flast\", \"Password1\": \"pass1\", \"Password2\": \"pass2\", \"Password3\": \"pass3\"}"},
+                        {"role": "system", "content": "Format your response as a Python dictionary: {\"Username\": \"flast\", \"Password1\": \"pass1\", \"Password2\": \"pass2\", \"Password3\": \"pass3\"}"},
                         {"role": "user", "content": f"### Prompt:\n{biography}"}
                         ]
 
 responses = generate_response(password_generator)
 file_name = "logins.json"
 with open(os.path.join(output_directory, file_name), "w") as summary_file:
-   summary_file.write(responses["choices"][0]["message"]["content"].strip())
+   json.dump(responses["choices"][0]["message"]["content"].strip(), summary_file)
    
