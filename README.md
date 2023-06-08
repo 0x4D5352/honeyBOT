@@ -25,11 +25,12 @@ cd stable-diffusion-webui && ./webui.sh
 
 ### Step 2.
 
-Open a new terminal window and run `./run.sh COUNT SERVER`, replacing `COUNT` with the number of people you wish to generate and `SERVER` with the linux server you wish to add them to. For example, to generate five people on server 192.168.123.111:
+Open a new terminal window and run `./run.sh COUNT SERVER`, replacing `COUNT` with the number of people you wish to generate and `SERVER` with the user and linux server you wish to add them to. For example, to generate five people on server 192.168.123.111:
 
 ```bash
-./run.sh 5 "192.168.123.111"
+./run.sh 5 "root@192.168.123.111"
 ```
+>🚨 NOTE: In the current implementation, it is assumed that you have added your RSA key to the root account's authorized keys on the target server. This is to avoid requiring the user to monitor the account creation process.
 
 ## ⚠️ Warnings ⚠️
 
