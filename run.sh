@@ -11,13 +11,13 @@ source .venv/bin/activate
 for _ in $(eval echo "{1..$count}")
 do
     echo "Generating honeyBOT.."
-    python3 generate_person.py
+    python3 ./honeyBOT/bee/generate_person.py
 done
 
 # generate image of person
 echo "Beginning image generation..."
-python3 generate_image.py
+python3 ./honeyBOT/bee/generate_image.py
 
 # add user accounts to target system
 echo "Adding honeyBOTs to target system..."
-python3 add_users.py $server
+python3 ./honeyBOT/hive/add_users.py $server
