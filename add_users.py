@@ -39,9 +39,13 @@ def main():
         print("Please provide a server to connect to.")
         exit()
     # using fabric, ssh into the server as root using your SSH key
+    print("Connecting to the server...")
     user = fabric.Connection(server, user="root", connect_kwargs={"key_filename": SSH_KEY}).run("echo $USER")
     # if $USER is root, continue
     if user.stdout == "root\n":
+        # show the end of the /etc/passwd file
+        fabric.Connection(server, user="root", connect_kwargs={"key_filename": SSH_KEY}).run("tail /etc/passwd")
+        print("\n\n\nAdding users to the system...")
         # go through the output directory
         for person in os.listdir(OUTPUT_DIRECTORY):
             # if the first character of the folder name is not a period
@@ -52,7 +56,7 @@ def main():
                 print(f"Adding {logins['Username']} to the system...")
                 fabric.Connection(server, user="root", connect_kwargs={"key_filename": SSH_KEY}).run(f"useradd -m -p {logins['Password']} {logins['Username']} &")
         # verify that the users were added to the system
-        fabric.Connection(server, user="root", connect_kwargs={"key_filename": SSH_KEY}).run("cat /etc/passwd")
+        fabric.Connection(server, user="root", connect_kwargs={"key_filename": SSH_KEY}).run("tail /etc/passwd")
             
 # run the main function
 if __name__ == "__main__":
