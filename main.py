@@ -1,4 +1,4 @@
-import honeyBOT
+
 import sys
 import os
 from time import time
