@@ -3,6 +3,7 @@ import json
 import os
 from datetime import date
 from secrets import randbelow
+from time import time
 
 # models = [model["filename"] for model in gpt4all.GPT4All.list_models()]
 # ! if you run into any issues, use this to see the different models and pick the best one
@@ -47,7 +48,6 @@ PROMPTS = [{"role": "user", "content": "### Prompt:\nGender:"},
            {"role": "user", "content": "### Prompt:\nMother's First Name:"}, 
            {"role": "user", "content": "### Prompt:\nMother's Maiden Name:"}, 
            {"role": "user", "content": "### Prompt:\nSiblings:"}, 
-           {"role": "user", "content": "### Prompt:\nSiblings' Names:"}, 
            {"role": "user", "content": "### Prompt:\nHair Color:"}, 
            {"role": "user", "content": "### Prompt:\nHair Style:"}, 
            {"role": "user", "content": "### Prompt:\nEye Color:"}, 
@@ -71,6 +71,9 @@ PROMPTS = [{"role": "user", "content": "### Prompt:\nGender:"},
            {"role": "user", "content": "### Prompt:\nHobbies:"}]
 
 TEMPLATE_JOBS = ["Accountant", "Project Manager", "Software Engineer", "System Administrator"]
+
+# timestamp at start of generation
+start_time = time()
 
 # setting up the LLM
 gptj = gpt4all.GPT4All(model_name=LARGE_LANGUAGE_MODEL, model_path=os.path.join(WORKING_DIRECTORY, "gpt4all/models"))
@@ -105,6 +108,8 @@ generator = [
 
 biography = {}
 
+print("Generating honeyBOT.bee:")
+
 for prompt in PROMPTS:
    generator.append(prompt)
    key = prompt["content"][12:-1]
@@ -128,19 +133,20 @@ if os.path.exists(output_directory):
    character_name = f"{biography['First Name']}{biography['Last Name']}"
    output_directory = os.path.join(WORKING_DIRECTORY, "output", character_name)
 os.mkdir(output_directory)
-file_name = "biography.json"
-with open(os.path.join(output_directory, file_name), "w") as biography_file:
+with open(os.path.join(output_directory, "biography.json"), "w") as biography_file:
    json.dump(biography, biography_file)
+   
+print("Generating summary:")
    
 summarizer = [{"role": "system", "content": "### Instruction:\nYou are a helpful assistant, skilled at reading python dictionaries and summarizing them."}, 
                {"role": "system", "content": "The prompt will be formatted as dictionary entries in the format Key: Value."}, 
                {"role": "system", "content": "Your response should be a one to three paragraph summary of the person described within the dictionary."},
                {"role": "user", "content": f"### Prompt:\n{biography}"}]
 
-summary = generate_response(summarizer)
-file_name = "summary.txt"
-with open(os.path.join(output_directory, file_name), "w") as summary_file:
-   summary_file.write(summary["choices"][0]["message"]["content"].strip())
+summary = generate_response(summarizer)["choices"][0]["message"]["content"].strip()
+print(summary)
+with open(os.path.join(output_directory, "summary.txt"), "w") as summary_file:
+   summary_file.write(summary)
    
 password_generator = [ {"role": "system", "content": "### Instruction:\nYou are a helpful assistant, skilled at reading python dictionaries and creating usernames and passwords."},
                         {"role": "system", "content": "Using the dictionary provided, you should create a username and three passwords based on the information described."},
@@ -149,12 +155,12 @@ password_generator = [ {"role": "system", "content": "### Instruction:\nYou are 
                         {"role": "system", "content": "The passwords should avoid referencing the person's ethnicity, sexual orientation, or physical features."},
                         {"role": "system", "content": "Each password should be between 8 and 15 alphanumeric characters, with a few letters capitalized."},
                         {"role": "system", "content": "For example, if the person's favorite movie is The Big Lebowski, one of their password could be WheresTheMoney1"},
-                        {"role": "system", "content": "Format your response as a Python dictionary: {\"Username\": \"flast\", \"Password1\": \"pass1\", \"Password2\": \"pass2\", \"Password3\": \"pass3\"}"},
+                        {"role": "system", "content": 'Format your response as a JSON file: {"Username": "flast", "Password1": "pass1", "Password2": "pass2", "Password3": "pass3"}'},
                         {"role": "user", "content": f"### Prompt:\n{biography}"}
                         ]
 
-responses = generate_response(password_generator)
-file_name = "logins.json"
-with open(os.path.join(output_directory, file_name), "w") as summary_file:
-   json.dump(responses["choices"][0]["message"]["content"].strip(), summary_file)
+password_json = generate_response(password_generator)["choices"][0]["message"]["content"].strip()
+with open(os.path.join(output_directory, "logins.json"), "w") as summary_file:
+   summary_file.write(password_json)
    
+print(f"Done generating {character_name}! Took {(time() - start_time) // 60} minutes and {(time() - start_time) % 60} seconds.")

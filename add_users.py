@@ -1,6 +1,6 @@
 # add users to the current linux system
 # Usage: python add_users.py
-# NOTE - this code was writting with the assistance of GitHub Copilot.
+
 import os
 import json
 from secrets import randbelow
@@ -18,9 +18,9 @@ SSH_KEY = os.path.join(os.path.expanduser("~"), ".ssh/id_rsa")
 def create_dict(login_json):
     # open the logins.json file
     with open(login_json, 'r') as f:
-        fix = json.loads(json.dumps(f.read())) # i messed something up and this is a quick fix
+        # fix = json.loads(json.dumps(f.read())) # i messed something up and this is a quick fix
         # load the contents of the file into a dictionary
-        data = json.loads(fix)
+        data = json.loads(f)
         # create a dictionary to store the contents for the logins
         logins = {}
         # add the username as the key and randomly select the password for the value
