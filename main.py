@@ -1,7 +1,11 @@
 import honeyBOT
 import sys
+import os
+from time import time
 
+# system constants
+OUTPUT_DIRECTORY = os.path.join(os.getcwd(), "output")
 
-# store the arguments in variables
-count = sys.argv[1]
+# storing the arguments in variables for clarity
+count = int(sys.argv[1])
 server = sys.argv[2]
