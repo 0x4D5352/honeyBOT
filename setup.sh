@@ -41,14 +41,16 @@ git lfs install
 wget https://gpt4all.io/models/ggml-nous-gpt4-vicuna-13b.bin  -O ./gpt4all/modelsggml-nous-gpt4-vicuna-13b.bin
 
 # install autogpt4all
-# git clone https://github.com/aorumbayev/autogpt4all.git && cd autogpt4all && chmod +x autogtp4all.sh && ./autogtp4all.sh && 
-# cd ../../
+git clone -b stable-copy https://github.com/mussar0x4D5352/autogpt4all.git && cd autogpt4all && chmod +x autogtp4all.sh && ./autogtp4all.sh && 
+cd ../../
 
 # install stable-diffusion-webui and dependencies
 
 git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui 
 
 # safety check for mac to ensure compatibility, linux doesn't need this
+# TODO: verify that this is still needed
+# TODO: set up a fork for this repo so we can make sure it's always compatible
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     cd stable-diffusion-webui && git checkout dev && git pull 
@@ -78,5 +80,7 @@ cd ./models && git clone https://huggingface.co/Bingsu/adetailer && cd ../
 # launch webui in background mode with no webserver
 
 ./webui.sh --nowebui # --use-cpu # uncomment if you're not able to use your GPU
+# TODO: figure out how to get this to launch in the background
+# TODO: once that's implemented, do the same for the LocalAI script
 
 # from here, open a new terminal window and execute run.sh COUNT IP, where COUNT is how many people you want to generate and IP is the server you're setting up your hive on.
