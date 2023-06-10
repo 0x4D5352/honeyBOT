@@ -42,7 +42,7 @@ wget https://gpt4all.io/models/ggml-nous-gpt4-vicuna-13b.bin  -O ./gpt4all/model
 
 # install autogpt4all
 git clone -b stable-copy https://github.com/mussar0x4D5352/autogpt4all.git && cd autogpt4all && chmod +x autogtp4all.sh && ./autogtp4all.sh && 
-cd ../../
+cd ../
 
 # install stable-diffusion-webui and dependencies
 
