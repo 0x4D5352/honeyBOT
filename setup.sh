@@ -33,6 +33,7 @@ source .venv/bin/activate
 
 
 # install gpt4all & stable diffusion webui-api
+pip install --upgrade pip
 pip install -r requirements.txt
 git lfs install
 
@@ -40,7 +41,8 @@ git lfs install
 wget https://gpt4all.io/models/ggml-nous-gpt4-vicuna-13b.bin  -O ./gpt4all/modelsggml-nous-gpt4-vicuna-13b.bin
 
 # install autogpt4all
-# git clone https://github.com/aorumbayev/autogpt4all.git && cd autogpt4all && chmod +x autogtp4all.sh && ./autogtp4all.sh
+# git clone https://github.com/aorumbayev/autogpt4all.git && cd autogpt4all && chmod +x autogtp4all.sh && ./autogtp4all.sh && 
+# cd ../../
 
 # install stable-diffusion-webui and dependencies
 
