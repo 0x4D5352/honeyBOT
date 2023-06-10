@@ -18,9 +18,9 @@ SSH_KEY = os.path.join(os.path.expanduser("~"), ".ssh/id_rsa")
 def create_dict(login_json):
     # open the logins.json file
     with open(login_json, 'r') as f:
-        # fix = json.loads(json.dumps(f.read())) # i messed something up and this is a quick fix
+        fix = json.loads(json.dumps(f.read())) # something weird is happening with the json file, so this is a hacky fix
         # load the contents of the file into a dictionary
-        data = json.loads(f)
+        data = json.loads(fix)
         # create a dictionary to store the contents for the logins
         logins = {}
         # add the username as the key and randomly select the password for the value
@@ -44,9 +44,9 @@ def main():
     # if $USER is root, continue
     if user.stdout == "root\n":
         # show the end of the /etc/passwd file
-        print("End of /etc/passwd:")
+        print("\nEnd of /etc/passwd:")
         fabric.Connection(server, user="root", connect_kwargs={"key_filename": SSH_KEY}).run("tail /etc/passwd")
-        print("\n\n\nAdding users to the system...")
+        print("\nAdding users to the system...")
         # go through the output directory
         for person in os.listdir(OUTPUT_DIRECTORY):
             # if the first character of the folder name is not a period
@@ -57,7 +57,7 @@ def main():
                 print(f"Adding {logins['Username']} to the system...")
                 fabric.Connection(server, user="root", connect_kwargs={"key_filename": SSH_KEY}).run(f"useradd -m -p {logins['Password']} {logins['Username']} &")
         # verify that the users were added to the system
-        print("\n\n\nEnd of /etc/passwd - users should be added:")
+        print("\nEnd of /etc/passwd - users should be added:")
         fabric.Connection(server, user="root", connect_kwargs={"key_filename": SSH_KEY}).run("tail /etc/passwd")
             
 # run the main function
