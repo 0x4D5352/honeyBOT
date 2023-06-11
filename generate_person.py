@@ -108,7 +108,7 @@ generator = [
 
 biography = {}
 
-print("Generating honeyBOT.bee:")
+print("Generating honeyBOT.drone:")
 
 for prompt in PROMPTS:
    generator.append(prompt)
