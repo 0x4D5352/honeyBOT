@@ -22,6 +22,6 @@ python3 generate_image.py
 echo "Adding honeyBOTs to target system..."
 python3 add_users.py $server
 
-# TODO: run autogtp4all and have a bot select a login json from the output folder, then attempt to log in with the provided username and each of the provided passwords, then log the results to a file. 
+# TODO: run Auto-GPT and have a bot select a login json from the output folder, then attempt to log in with the provided username and each of the provided passwords, then log the results to a file. 
 
 # cd Auto-GPT && ./run.sh --skip-news # at this point you'll need to do SOME intervention but can be fixed i think

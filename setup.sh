@@ -28,6 +28,16 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
 fi
 # TODO: make this run on arch
 
+# validate docker install
+if ! [ -x "$(command -v docker)" ]; then
+    echo "Docker is not installed. Please install docker and run this script again."
+    exit 1
+elif [ $(docker ps) == "Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?" ]; then
+    echo "Docker is not running. Please start docker and run this script again."
+    exit 1
+fi"
+
+
 # TODO: figure out how to check docker-compose version and update if older than 1.29.2
 
 # create venv and setup
