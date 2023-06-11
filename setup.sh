@@ -9,7 +9,8 @@
 # 
 #
 
-# TODO: PUT WEBSERVER IN CONTAINER ASAP
+
+# TODO: PUT everything in containers
 
 # setup part 1: install dependecies and prepare directories
 mkdir -p gpt4all/models
@@ -27,6 +28,8 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
 fi
 # TODO: make this run on arch
 
+# TODO: figure out how to check docker-compose version and update if older than 1.29.2
+
 # create venv and setup
 python3 -m venv .venv
 source .venv/bin/activate
@@ -41,8 +44,21 @@ git lfs install
 wget https://gpt4all.io/models/ggml-nous-gpt4-vicuna-13b.bin  -O ./gpt4all/modelsggml-nous-gpt4-vicuna-13b.bin
 
 # install autogpt4all
-git clone -b stable-copy https://github.com/mussar0x4D5352/autogpt4all.git && cd autogpt4all && chmod +x autogtp4all.sh && ./autogtp4all.sh && 
-cd ../
+# git clone -b stable-copy https://github.com/mussar0x4D5352/autogpt4all.git && cd autogpt4all && chmod +x autogtp4all.sh && ./autogtp4all.sh && 
+# cd ../
+
+# install Auto-GPT repo
+
+git clone -b stable https://github.com/Significant-Gravitas/Auto-GPT.git && cd ./Auto-GPT 
+
+# set up Auto-GPT environment with OpenAI API key
+
+cp .env.template .env
+
+sed -i '' -e "s/your-openai-api-key/$OPENAI_API_KEY/g" .env
+
+docker-compose build auto-gpt
+
 
 # install stable-diffusion-webui and dependencies
 
