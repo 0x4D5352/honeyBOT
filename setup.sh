@@ -26,12 +26,12 @@ echo "Installing dependencies..."
 
 # validate basic dependencies
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    brew update && brew install wget git python@3.10 cmake protobuf rust git-lfs
+    brew update && brew install wget git python@3.10 cmake protobuf rust git-lfs docker docker-compose
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
     if [[ $(uname -n) == "fedora" ]]; then
-        dnf install wget git python3 git-lfs
+        dnf install wget git python3 git-lfs docker docker-compose
     else
-        apt-get install -y wget git python3 git-lfs
+        apt-get install -y wget git python3 git-lfs docker docker-compose
     fi
 fi
 # TODO: make this run on arch
