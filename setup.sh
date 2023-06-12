@@ -92,7 +92,9 @@ sed -i '' -e "s/your-openai-api-key/$OPENAI_API_KEY/g" .env
 
 # enable local command execution (necessary for SSH)
 
-sed -i '' -e "s/your-openai-api-key/$OPENAI_API_KEY/g" .env
+sed -i '' -e "s/# EXECUTE_LOCAL_COMMANDS=False/EXECUTE_LOCAL_COMMANDS=True/g" .env
+
+# curl -o ./plugins/Auto-GPT-SystemInfo.zip https://github.com/hdkiller/Auto-GPT-SystemInfo/archive/refs/heads/master.zip 
 
 docker-compose build auto-gpt
 
