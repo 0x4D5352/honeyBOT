@@ -88,6 +88,9 @@ git clone -b stable https://github.com/Significant-Gravitas/Auto-GPT.git && cd .
 
 cp .env.template .env
 
+sed -i '' -e "s/your-openai-api-key/$OPENAI_API_KEY/g" .env
+
+# enable local command execution (necessary for SSH)
 
 sed -i '' -e "s/your-openai-api-key/$OPENAI_API_KEY/g" .env
 
