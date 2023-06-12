@@ -26,33 +26,34 @@ echo "Installing dependencies..."
 
 # validate basic dependencies
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    brew update && brew install wget git python@3.10 cmake protobuf rust git-lfs
+    brew update && brew install wget git python@3.10 cmake protobuf rust git-lfs docker docker-compose
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
     if [[ $(uname -n) == "fedora" ]]; then
-        dnf install wget git python3 git-lfs
+        dnf install wget git python3 git-lfs docker docker-compose
     else
-        apt-get install -y wget git python3 git-lfs
+        apt-get install -y wget git python3 git-lfs docker docker-compose
     fi
 fi
 # TODO: make this run on arch
 
+# TODO: fix this
 # validate docker install
-if ! [ -x "$(command -v docker)" ]; then
-    echo "Docker is not installed. Please install docker and run this script again."
-    exit 1
-elif [ $(docker ps) == "Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?" ]; then
-    echo "Docker is not running. Please start docker and run this script again."
-    exit 1
-fi
+#if ! [ -x "$(command -v docker)" ]; then
+#    echo "Docker is not installed. Please install docker and run this script again."
+#    exit 1
+#elif [ $(docker ps) == "Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?" ]; then
+#    echo "Docker is not running. Please start docker and run this script again."
+#    exit 1
+#fi
 
 
 # check if $OPENAI_API_KEY is set
-if [ -z ${OPENAI_API_KEY+x} ]; then
-    echo "You need an OpenAI API key to run Auto-GPT."
-    echo "If you do not already have one, you can get one here: https://platform.openai.com/account/api-keys"
-    echo "Once you have your API key, set it as an environment variable called OPENAI_API_KEY, reload your shell and run this script again."
-    exit 1
-fi
+# if [ -z ${OPENAI_API_KEY+x} ]; then
+#     echo "You need an OpenAI API key to run Auto-GPT."
+#     echo "If you do not already have one, you can get one here: https://platform.openai.com/account/api-keys"
+#     echo "Once you have your API key, set it as an environment variable called OPENAI_API_KEY, reload your shell and run this script again."
+#     exit 1
+# fi
 
 # TODO: figure out how to check docker-compose version and update if older than 1.29.2
 
@@ -79,20 +80,25 @@ git lfs install
 
 # install Auto-GPT repo
 
-echo "Installing Auto-GPT..."
+# echo "Installing Auto-GPT..."
 
-git clone -b stable https://github.com/Significant-Gravitas/Auto-GPT.git && cd ./Auto-GPT 
+# git clone -b stable https://github.com/Significant-Gravitas/Auto-GPT.git && cd ./Auto-GPT 
 
-# set up Auto-GPT environment with OpenAI API key
+# # set up Auto-GPT environment with OpenAI API key
 
-cp .env.template .env
+# cp .env.template .env
 
+# sed -i '' -e "s/your-openai-api-key/$OPENAI_API_KEY/g" .env
 
-sed -i '' -e "s/your-openai-api-key/$OPENAI_API_KEY/g" .env
+# # enable local command execution (necessary for SSH)
 
-docker-compose build auto-gpt
+# sed -i '' -e "s/# EXECUTE_LOCAL_COMMANDS=False/EXECUTE_LOCAL_COMMANDS=True/g" .env
 
-cd ../
+# curl -o ./plugins/Auto-GPT-SystemInfo.zip https://github.com/hdkiller/Auto-GPT-SystemInfo/archive/refs/heads/master.zip 
+
+# docker-compose build auto-gpt
+
+# cd ../
 
 # install stable-diffusion-webui and dependencies
 

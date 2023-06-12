@@ -4,14 +4,26 @@
 
 honeyBOT leverages the power of multiple FOSS Generative AI Models to construct realistic people with realistic backstories, realistic photos, and most importantly - realistic bad passwords. Using FOSS tools allows honeyBOT to generate an unlimited number of inferences hosted locally on your machine. No rate limits, no API fees, no censorship, and (after your first runthrough) entirely offline. Whether you need a single person for a spear phishing or BEC campaign, or an entire fictional organization that exists on a bait server in your DMZ, honeyBOT can provide!
 
-In this current implementation, honeyBOT will generate backgrounds, photos, and passwords for a specified number of people and add them to the specified Linux server. Future versions will allow for more customization, including the ability to generate people with specific backgrounds, photos, and passwords.
+The final implementation of honeyBOT will be comprised of three main components - the queen, the drones, and the hive:
+* honeyBOT.queen - The primary engine for honeyBOT, which leverages GPT4ALL and Stable Diffusion to generate drones to populate your hive. 
+* honeyBOT.drone - A less-than-secure user, using Auto-GPT to perform tasks like clicking links in emails and reusing the same memorable passwords on multiple websites. 
+* honeyBOT.hive - A virtual machine, virtual network, or web API that your drones either connect to or run on in order to perform their tasks - drawing attention away from the rest of your organization. 
+
+In its current form, honeyBOT will generate backgrounds, photos, and passwords for an arbitrary number of people and add them to a Linux server you have control over. Future versions will allow for more customization, including the ability to generate people with specific backgrounds, photos, and passwords. 
+
+>🚨 NOTE: If you have an OpenAI API key and the inclination to spend a bit of money, you can test out basic agent usage by checking out the dev branch or uncommenting the relevant lines of text in `setup.sh` and `run.sh`. 
+>In testing, using GPT-4 to perform a basic system administration task took about $2.00 USD and 22 minutes of realtime, but prompt engineering tests and 3.5/4 comparison tests cost an additional $5.25 USD and a few hours of realtime.
+>Be sure to set a usage limit in both Auto-GPT and on OpenAI's billing page before doing so!
 
 ## 🐝 How to Use 🐝
 
-### Step 1 (Mac/Linux).
-
+### Prerequisites:
 Mac users: If you do not already have [Homebrew](https://brew.sh) installed, do so before running.
 Windows setup is currently in development and will be released ASAP.
+
+For `run.sh` to work, you need to have access to a linux server you can connect to via SSH. It's recommended that you set up a VM on your local network or a VLAN, especially for interacting with Auto-GPT. See the note in step 2 for more details.
+
+### Step 1 (Mac/Linux).
 
 Only necessary for initial installation. See note for subsequent runs. Run the following text in your terminal:
 ```bash
@@ -19,7 +31,8 @@ git clone https://github.com/mussar0x4D5352/honeyBOT.git && cd ./honeyBOT && chm
 ```
 >🚨 NOTE: If you close the terminal session or shut down your computer, you will need to relaunch the stable diffusion webserver before continuing onto step 2:
 ```bash
-cd stable-diffusion-webui && ./webui.sh
+# assuming you're already in honeyBOT/
+cd ./stable-diffusion-webui && ./webui.sh
 ```
 
 
@@ -30,7 +43,7 @@ Open a new terminal window and run `./run.sh COUNT SERVER`, replacing `COUNT` wi
 ```bash
 ./run.sh 5 "root@192.168.123.111"
 ```
->🚨 NOTE: In the current implementation, it is assumed that you have added your RSA key to the root account's authorized keys on the target server. This is to avoid requiring the user to monitor the account creation process.
+>🚨 NOTE: In the current implementation, it is assumed that you have added your RSA key to the root account's authorized keys on the target server. This is to avoid requiring the user to monitor the account creation process. Don't do this on a live server.
 
 ## ⚠️ Warnings ⚠️
 
@@ -46,6 +59,7 @@ Open a new terminal window and run `./run.sh COUNT SERVER`, replacing `COUNT` wi
 * [SD Webui API](https://github.com/mix1009/sdwebuiapi)
 * [Civitai](https://civitai.com/) (warning: NSFW content)
 * [Hugging Face](https://huggingface.co/)
+* [Auto-GPT](https://github.com/Significant-Gravitas/Auto-GPT)
 
 ## 🚗 Roadmap 🚗
 
