@@ -26,4 +26,4 @@ python3 add_users.py $server
 
 # TODO: run Auto-GPT and have a bot select a login json from the output folder, then attempt to log in with the provided username and each of the provided passwords, then log the results to a file. 
 
-# docker-compose run --rm auto-gpt # at this point you'll need to do SOME intervention but eventually i'll automate it
+# cd Auto-GPT && docker-compose run --rm auto-gpt # at this point you'll need to do SOME intervention but eventually i'll automate it
