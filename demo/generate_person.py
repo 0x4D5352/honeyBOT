@@ -1,6 +1,5 @@
 import gpt4all
 import json
-import os
 from pathlib import Path
 from datetime import date
 from secrets import randbelow
@@ -126,7 +125,7 @@ for prompt in PROMPTS:
 
 character_name = f"{biography['First Name']}{biography['Last Name']}"
 output_directory = Path(f"output/{character_name}")
-if os.path.exists(output_directory):
+if output_directory.exists():
    generator.append({"role": "user", "content": "The name chosen already exists. Pick a new first name."})
    key = "First Name"
    value = generate_response(generator)["choices"][0]["message"]["content"].strip()
