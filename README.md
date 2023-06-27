@@ -13,7 +13,7 @@ In its current form, honeyBOT will generate backgrounds, photos, and passwords f
 
 >🚨 NOTE: If you have an OpenAI API key and the inclination to spend a bit of money, you can test out basic agent usage by checking out the dev branch or uncommenting the relevant lines of text in `setup.sh` and `run.sh`. 
 >In testing, using GPT-4 to perform a basic system administration task took about $2.00 USD and 22 minutes of realtime, but prompt engineering tests and 3.5/4 comparison tests cost an additional $5.25 USD and a few hours of realtime.
->Be sure to set a usage limit in both Auto-GPT and on OpenAI's billing page before doing so!
+>Be sure to set a usage limit in both Auto-GPT and on OpenAI's billing page before experimenting!
 
 ## 🐝 How to Use 🐝
 
