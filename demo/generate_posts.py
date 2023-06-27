@@ -40,9 +40,8 @@ def generate_response(chat_history):
 for person in Path('output').iterdir():
     person_directory = Path(person)
     if person_directory.exists() and person_directory.is_dir():
-        biography_file = Path(person_directory, "summary.txt")
         # open the biography file and read the contents
-        with open(biography_file, "r") as f:
+        with open(Path(person_directory, "summary.txt"), "r") as f:
             biography_text = f.read()
             # generate the prompt
             prompt = [

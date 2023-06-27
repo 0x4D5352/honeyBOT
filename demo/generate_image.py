@@ -1,24 +1,21 @@
 import webuiapi
 import json
-import os
+from pathlib import Path
 from time import time
-
-# default output location, change if you want to use a different one
-OUTPUT_DIRECTORY = os.path.join(os.getcwd(), "output")
 
 start_time = time()
 # connecting to the API
 api = webuiapi.WebUIApi(port=7861) # --nowebui uses 7861, --api uses 7860
 
 # looping through all the people in the output directory if they are not hidden
-for person in os.listdir(OUTPUT_DIRECTORY):
+for person in Path('output').iterdir():
     if person[0] != '.':
         # loading the biography.json file and generating the image
-        with open(f"{OUTPUT_DIRECTORY}/{person}/biography.json", "r") as biography:
+        with open(Path(f"{person}/biography.json", "r")) as biography:
             biography_dict = json.load(biography)
             # this prompt is a bit complex, so I'll explain it at the end
             selfie = api.txt2img(prompt=f"photo of, upper body, best quality, ultra-detailed, [analog style, dslr] (look at viewer:1.2) (skin texture) (film grain:1.1), diffused shadows, (warm hue, warm tone:1.2), ultra high res, best shadow, RAW, realistic, photorealistic, indoors, blank walls, simple background, {biography_dict['Body Shape']} body, (close up), soft smile, wearing {biography_dict['Favorite Color']} (business suit),1 ((upper body selfie)) adult ({biography_dict['Gender']}), (({biography_dict['Age']} years old)), ({biography_dict['Ethnicity']} {biography_dict['Nationality']}), {biography_dict['Hair Color']} {biography_dict['Hair Style']} hair, BREAK {biography_dict['Eye Color']} Eyes, ({biography_dict['Gender']})", negative_prompt="BadDream, (UnrealisticDream:1.2), hands, (iphone:1.1), (nsfw), cleavage, extra limbs, amputee", cfg_scale=10, sampler_index="DPM++ SDE Karras", width=540, height=960, steps=35, enable_hr=True, denoising_strength=0.55,hr_second_pass_steps=35, hr_scale=2, restore_faces=True, hr_upscaler="R-ESRGAN 4x+", alwayson_scripts={"ADetailer": {"args": [True, {"ad_model": "person_yolov8n-seg.pt", "ad_restore_face": True, "ad_steps": 35}]}})
-            filename = f"{OUTPUT_DIRECTORY}/{person}/photo.png"
+            filename = Path(f"{person}/photo.png")
             selfie.image.save(filename, "PNG")
             print(f"Finished generating image for {person}!")
 
