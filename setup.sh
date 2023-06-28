@@ -19,7 +19,7 @@ if [ ! -d "gpt4all" ]; then
     mkdir -p gpt4all/models 
 fi
 if [ ! -d "output" ]; then 
-    mkdir output
+    mkdir demo/output
 fi
 
 echo "Installing dependencies..."

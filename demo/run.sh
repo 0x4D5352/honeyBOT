@@ -4,7 +4,7 @@
 count=$1
 server=$2
 
-head ../.honeybot.txt -n 6
+head -n 6 ../.honeybot.txt 
 
 # make sure we're using the right packages!
 source ../.venv/bin/activate
@@ -17,8 +17,8 @@ do
 done
 
 # generate image of person
-echo "Beginning image generation..."
-python3 generate_image.py
+#echo "Beginning image generation..."
+#python3 generate_image.py
 
 # generate social media posts
 echo "Generating social media posts..."
