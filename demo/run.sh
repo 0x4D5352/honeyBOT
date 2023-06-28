@@ -17,8 +17,8 @@ do
 done
 
 # generate image of person
-#echo "Beginning image generation..."
-#python3 generate_image.py
+echo "Beginning image generation..."
+python3 generate_image.py
 
 # generate social media posts
 echo "Generating social media posts..."
