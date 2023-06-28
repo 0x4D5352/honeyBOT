@@ -1,8 +1,8 @@
 #!/bin/bash               
 # Run me first!!!! I make sure everything is installed correctly.
-# (I'll fill the rest of this in later) 
-#
-#
+# This should take no more than 10 minutes to run, depending on your internet connection.
+# If you have any issues, please open an issue on the github repo.
+# 
 #
 #
 #
@@ -19,7 +19,7 @@ if [ ! -d "gpt4all" ]; then
     mkdir -p gpt4all/models 
 fi
 if [ ! -d "output" ]; then 
-    mkdir output
+    mkdir demo/output
 fi
 
 echo "Installing dependencies..."
@@ -38,22 +38,22 @@ fi
 
 # TODO: fix this
 # validate docker install
-#if ! [ -x "$(command -v docker)" ]; then
-#    echo "Docker is not installed. Please install docker and run this script again."
-#    exit 1
-#elif [ $(docker ps) == "Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?" ]; then
-#    echo "Docker is not running. Please start docker and run this script again."
-#    exit 1
-#fi
+if ! [ -x "$(command -v docker)" ]; then
+   echo "Docker is not installed. Please install docker and run this script again."
+   exit 1
+elif [ $(docker ps) == "Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?" ]; then
+   echo "Docker is not running. Please start docker and run this script again."
+   exit 1
+fi
 
 
 # check if $OPENAI_API_KEY is set
-# if [ -z ${OPENAI_API_KEY+x} ]; then
-#     echo "You need an OpenAI API key to run Auto-GPT."
-#     echo "If you do not already have one, you can get one here: https://platform.openai.com/account/api-keys"
-#     echo "Once you have your API key, set it as an environment variable called OPENAI_API_KEY, reload your shell and run this script again."
-#     exit 1
-# fi
+if [ -z ${OPENAI_API_KEY+x} ]; then
+    echo "You need an OpenAI API key to run Auto-GPT."
+    echo "If you do not already have one, you can get one here: https://platform.openai.com/account/api-keys"
+    echo "Once you have your API key, set it as an environment variable called OPENAI_API_KEY, reload your shell and run this script again."
+    exit 1
+fi
 
 # TODO: figure out how to check docker-compose version and update if older than 1.29.2
 
@@ -72,7 +72,7 @@ git lfs install
 
 # install vicuna model for gpt4all
 # TODO: figure out why this doesn't get loaded into gpt4all when it runs in generate_person
-# wget https://gpt4all.io/models/ggml-nous-gpt4-vicuna-13b.bin  -O ./gpt4all/modelsggml-nous-gpt4-vicuna-13b.bin
+wget https://gpt4all.io/models/ggml-nous-gpt4-vicuna-13b.bin  -O ./gpt4all/models/ggml-nous-gpt4-vicuna-13b.bin
 
 # install autogpt4all
 # git clone -b stable-copy https://github.com/mussar0x4D5352/autogpt4all.git && cd autogpt4all && chmod +x autogtp4all.sh && ./autogtp4all.sh && 
@@ -84,17 +84,17 @@ git lfs install
 
 # git clone -b stable https://github.com/Significant-Gravitas/Auto-GPT.git && cd ./Auto-GPT 
 
-# # set up Auto-GPT environment with OpenAI API key
+# # # set up Auto-GPT environment with OpenAI API key
 
 # cp .env.template .env
 
 # sed -i '' -e "s/your-openai-api-key/$OPENAI_API_KEY/g" .env
 
-# # enable local command execution (necessary for SSH)
+# # # enable local command execution (necessary for SSH)
 
 # sed -i '' -e "s/# EXECUTE_LOCAL_COMMANDS=False/EXECUTE_LOCAL_COMMANDS=True/g" .env
 
-# curl -o ./plugins/Auto-GPT-SystemInfo.zip https://github.com/hdkiller/Auto-GPT-SystemInfo/archive/refs/heads/master.zip 
+# # curl -o ./plugins/Auto-GPT-SystemInfo.zip https://github.com/hdkiller/Auto-GPT-SystemInfo/archive/refs/heads/master.zip 
 
 # docker-compose build auto-gpt
 

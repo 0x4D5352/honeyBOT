@@ -9,7 +9,7 @@ The final implementation of honeyBOT will be comprised of three main components 
 * honeyBOT.drone - A less-than-secure user, using Auto-GPT to perform tasks like clicking links in emails and reusing the same memorable passwords on multiple websites. 
 * honeyBOT.hive - A virtual machine, virtual network, or web API that your drones either connect to or run on in order to perform their tasks - drawing attention away from the rest of your organization. 
 
-In its current form, honeyBOT will generate backgrounds, photos, and passwords for an arbitrary number of people and add them to a Linux server you have control over. Future versions will allow for more customization, including the ability to generate people with specific backgrounds, photos, and passwords. 
+In its current form, honeyBOT will generate backgrounds, photos, and passwords for an arbitrary number of people, generates sample posts for social media, and adds them to a Linux server you have control over. Future versions will allow for more customization, including the ability to generate people with specific backgrounds, photos, and passwords. 
 
 >🚨 NOTE: If you have an OpenAI API key and the inclination to spend a bit of money, you can test out basic agent usage by checking out the dev branch or uncommenting the relevant lines of text in `setup.sh` and `run.sh`. 
 >In testing, using GPT-4 to perform a basic system administration task took about $2.00 USD and 22 minutes of realtime, but prompt engineering tests and 3.5/4 comparison tests cost an additional $5.25 USD and a few hours of realtime.
@@ -38,10 +38,10 @@ cd ./stable-diffusion-webui && ./webui.sh --nowebui
 
 ### Step 2.
 
-Open a new terminal window and run `./run.sh COUNT SERVER`, replacing `COUNT` with the number of people you wish to generate and `SERVER` with the user and linux server you wish to add them to. For example, to generate five people on server 192.168.123.111:
+Open a new terminal window, navigate to the demo directory, and run `./run.sh COUNT SERVER`, replacing `COUNT` with the number of people you wish to generate and `SERVER` with the user and linux server you wish to add them to. For example, to generate five people on server 192.168.123.111:
 
 ```bash
-./run.sh 5 "root@192.168.123.111"
+cd demo && ./run.sh 5 "root@192.168.123.111"
 ```
 >🚨 NOTE: In the current implementation, it is assumed that you have added your RSA key to the root account's authorized keys on the target server. This is to avoid requiring the user to monitor the account creation process. Don't do this on a live server.
 
