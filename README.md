@@ -32,7 +32,7 @@ git clone https://github.com/mussar0x4D5352/honeyBOT.git && cd ./honeyBOT && chm
 >🚨 NOTE: If you close the terminal session or shut down your computer, you will need to relaunch the stable diffusion webserver before continuing onto step 2:
 ```bash
 # assuming you're already in honeyBOT/
-cd ./stable-diffusion-webui && ./webui.sh
+cd ./stable-diffusion-webui && ./webui.sh --nowebui
 ```
 
 
