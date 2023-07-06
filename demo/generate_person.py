@@ -1,6 +1,6 @@
 import gpt4all
 import json
-import os
+from pathlib import Path
 from datetime import date
 from secrets import randbelow
 from time import time
@@ -8,7 +8,7 @@ from time import time
 # models = [model["filename"] for model in gpt4all.GPT4All.list_models()]
 # ! if you run into any issues, use this to see the different models and pick the best one
 
-WORKING_DIRECTORY = os.getcwd()
+MODEL_DIRECTORY = Path('../gpt4all/models')
 LARGE_LANGUAGE_MODEL = "ggml-nous-gpt4-vicuna-13b.bin" # best working model as of implementation deadline, can be improved.
 DISPLAY_CHAT = False # change to True to see the output as it prints. Useful for debugging.
 
@@ -76,7 +76,7 @@ TEMPLATE_JOBS = ["Accountant", "Project Manager", "Software Engineer", "System A
 start_time = time()
 
 # setting up the LLM
-gptj = gpt4all.GPT4All(model_name=LARGE_LANGUAGE_MODEL, model_path=os.path.join(WORKING_DIRECTORY, "gpt4all/models"))
+gptj = gpt4all.GPT4All(model_name=LARGE_LANGUAGE_MODEL, model_path=str(MODEL_DIRECTORY))
 
 # helper function
 def generate_response(chat_history):
@@ -124,16 +124,16 @@ for prompt in PROMPTS:
 
 
 character_name = f"{biography['First Name']}{biography['Last Name']}"
-output_directory = os.path.join(WORKING_DIRECTORY, "output", character_name)
-if os.path.exists(output_directory):
+output_directory = Path(f"output/{character_name}")
+if output_directory.exists():
    generator.append({"role": "user", "content": "The name chosen already exists. Pick a new first name."})
    key = "First Name"
    value = generate_response(generator)["choices"][0]["message"]["content"].strip()
    biography[key] = value
    character_name = f"{biography['First Name']}{biography['Last Name']}"
-   output_directory = os.path.join(WORKING_DIRECTORY, "output", character_name)
-os.mkdir(output_directory)
-with open(os.path.join(output_directory, "biography.json"), "w") as biography_file:
+   output_directory = Path(f"output/{character_name}")
+output_directory.mkdir()
+with open(Path(f"{output_directory}/biography.json"), "w") as biography_file:
    json.dump(biography, biography_file)
    
 print("Generating summary:")
@@ -145,7 +145,7 @@ summarizer = [{"role": "system", "content": "### Instruction:\nYou are a helpful
 
 summary = generate_response(summarizer)["choices"][0]["message"]["content"].strip()
 print(summary)
-with open(os.path.join(output_directory, "summary.txt"), "w") as summary_file:
+with open(Path(f"{output_directory}/summary.txt"), "w") as summary_file:
    summary_file.write(summary)
    
 password_generator = [ {"role": "system", "content": "### Instruction:\nYou are a helpful assistant, skilled at reading python dictionaries and creating usernames and passwords."},
@@ -160,7 +160,7 @@ password_generator = [ {"role": "system", "content": "### Instruction:\nYou are 
                         ]
 
 password_json = generate_response(password_generator)["choices"][0]["message"]["content"].strip()
-with open(os.path.join(output_directory, "logins.json"), "w") as summary_file:
+with open(Path(f"{output_directory}/logins.json"), "w") as summary_file:
    summary_file.write(password_json)
    
 print(f"Done generating {character_name}! Took {(time() - start_time) // 60} minutes and {(time() - start_time) % 60} seconds.")
